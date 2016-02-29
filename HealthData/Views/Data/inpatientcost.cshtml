@@ -1,0 +1,61 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2>Hospital Inpatient Cost Transparency</h2>
+
+<script src="~/Scripts/angular.min.js"></script>
+
+
+<div ng-app="app" ng-controller="appctrl">
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th ng-click="orderByMe('year')">Year</th>
+                <th ng-click="orderByMe('facility_name')">Facility Name</th>
+                <th ng-click="orderByMe('apr_drg_description')">APR DRG Description</th>
+                <th ng-click="orderByMe('apr_severity_of_illness_description')">APR Severity of Illness Description</th>
+                <th ng-click="orderByMe('apr_medical_surgical_code')">APR Medical Surgical Code</th>
+                <th ng-click="orderByMe('apr_medical_surgical_description')">APR Medical Surgical Description</th>
+                <th ng-click="orderByMe('discharges')">Discharges</th>
+                <th ng-click="orderByMe('mean_charge')">Mean Charge</th>
+                <th ng-click="orderByMe('median_charge')">Median Charge</th>
+                <th ng-click="orderByMe('mean_cost')">Mean Cost</th>
+                <th ng-click="orderByMe('median_cost')">Median Cost</th>
+            </tr>
+        </thead>
+        <tr ng-repeat="x in data1 | orderBy:myOrderBy">
+            <td>{{x.year}}</td>
+            <td>{{x.facility_name}}</td>
+            <td>{{x.apr_drg_description}}</td>
+            <td>{{x.apr_severity_of_illness_description}}</td>
+            <td>{{x.apr_medical_surgical_code}}</td>
+            <td>{{x.apr_medical_surgical_description}}</td>
+            <td>{{x.discharges}}</td>
+            <td>{{x.mean_charge}}</td>
+            <td>{{x.median_charge}}</td>
+            <td>{{x.mean_cost}}</td>
+            <td>{{x.median_cost}}</td>
+        </tr>
+    </table>
+
+</div>
+
+<script type="text/javascript">
+    angular.module("app", []).controller("appctrl", function ($scope, $http) {
+
+        $http.get("https://health.data.ny.gov/resource/7dtz-qxmr.json").then(function (response) { $scope.data1 = response.data; });
+
+
+        $scope.orderByMe = function (x) {
+            $scope.myOrderBy = x;
+        }
+
+
+    });
+
+</script>
+
+

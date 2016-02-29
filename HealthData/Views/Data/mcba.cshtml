@@ -1,0 +1,47 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<script src="~/Scripts/angular.min.js"></script>
+
+<h2>Medical Conduct Board Actions</h2>
+
+<div ng-app="app" ng-controller="appctrl">
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th ng-click="orderByMe('measurement_year')">Physician Name</th>
+                <th ng-click="orderByMe('licensenum')">License Number</th>
+                <th ng-click="orderByMe('webaction')">Action</th>
+                <th ng-click="orderByMe('webnotes')">Misconduct Description</th>
+                
+            </tr>
+        </thead>
+        <tr ng-repeat="x in data1 | orderBy:myOrderBy">
+            <td>{{x.physicianname}}</td>
+            <td>{{x.licensenum}}</td>
+            <td>{{x.webaction}}</td>
+            <td>{{x.webnotes}}</td>
+            
+        </tr>
+    </table>
+
+</div>
+
+<script type="text/javascript">
+    angular.module("app", []).controller("appctrl", function ($scope, $http) {
+
+        $http.get("https://health.data.ny.gov/resource/ebmi-8ctw.json").then(function (response) { $scope.data1 = response.data; });
+
+
+        $scope.orderByMe = function (x) {
+            $scope.myOrderBy = x;
+        }
+
+
+    });
+
+</script>

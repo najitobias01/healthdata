@@ -1,0 +1,52 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>QARR</h2>
+
+<script src="~/Scripts/angular.min.js"></script>
+
+
+<div ng-app="app" ng-controller="appctrl">
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th ng-click="orderByMe('measurement_year')">Measurement year</th>
+                <th ng-click="orderByMe('payer')">Payer</th>
+                <th ng-click="orderByMe('domain')">Domain</th>
+                <th ng-click="orderByMe('sub_domain')">Sub Domain</th>
+                <th ng-click="orderByMe('measure')">Measure</th>
+                <th ng-click="orderByMe('denominator')">Denominator</th>
+                <th ng-click="orderByMe('numerator')">Numerator</th>
+            </tr>
+        </thead>
+        <tr ng-repeat="x in qarrdata | orderBy:myOrderBy">
+            <td>{{x.measurement_year}}</td>
+            <td>{{x.payer}}</td>
+            <td>{{x.domain}}</td>
+            <td>{{x.sub_domain}}</td>
+            <td>{{x.measure}}</td>
+            <td>{{x.denominator}}</td>
+            <td>{{x.numerator}}</td>
+        </tr>
+    </table>
+
+</div>
+
+<script type="text/javascript">
+    angular.module("app", []).controller("appctrl", function ($scope, $http) {
+
+        $http.get("https://health.data.ny.gov/resource/6mvg-6ik8.json").then(function (response) { $scope.qarrdata = response.data; });
+
+
+        $scope.orderByMe = function (x) {
+            $scope.myOrderBy = x;
+        }
+
+
+    });
+
+</script>
+
+
